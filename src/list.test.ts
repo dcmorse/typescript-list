@@ -5,23 +5,23 @@ describe('List', () => {
     test('returns nil for no args', () => {
       expect(list()).toBe(nil);
     });
-    test('returns (56) for list(56)', () => {
+    test('returns [56] for list(56).toArray()', () => {
       const l = list(56);
-      expect(l.length()).toBe(1);
-      expect(l.head).toBe(56);
-      expect(l.tail).toBe(nil);
+      expect(l.toArray()).toEqual([56]);
     })
-    test('returns (5,6,7) for list(5,6,7)', () => {
-      let l = list(5,6,7);
-      expect(l.length()).toBe(3);
-      expect(l.head).toBe(5);
-      l = l.tail;
-      expect(l.head).toBe(6);
-      l = l.tail;
-      expect(l.head).toBe(7);
-      l = l.tail;
-      expect(l).toBe(nil);
-    })
+    test('returns [5,6,7] for list(5,6,7)', () => {
+      const l = list(5,6,7);
+      expect(l.toArray()).toEqual([5,6,7]);
+    });
+  });
+
+  describe('length and nil', () => {
+    xit('write tests', () => {})
+  });
+
+  describe('length', ()=> {
+    xit('write tests', () => {})
+
   })
 
   describe('head', () => {

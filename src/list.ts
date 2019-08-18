@@ -1,8 +1,8 @@
-interface List<T> {
-  length(): number;
+abstract class List<T> {
   head: T;
   tail: List<T>;
-  toArray: () => T[];
+  abstract length(): number;
+  abstract toArray(): T[];
   // prepend(): (<T>) => List<T>;
   // map()
   // reduce()
@@ -17,11 +17,12 @@ function list<T>(...args): List<T> {
 
 export { list };
 
-export class Cons<T> {
+export class Cons<T> extends List<T> {
   head: T;
   tail: List<T>;
 
   constructor(head: T, tail: List<T>) {
+    super();
     this.head = head;
     this.tail = tail;
   };
@@ -30,7 +31,7 @@ export class Cons<T> {
     return 1 + this.tail.length()
   };
 
-  toArray() {
+  toArray(): T[] {
     const a: T[] = [];
     let l: List<T>;
     for (l = this; l != nil; l = l.tail)
@@ -39,7 +40,7 @@ export class Cons<T> {
   }
 }
 
-class Nil {
+class Nil<T> extends List<T> {
   toString() {
     return 'nil';
   }

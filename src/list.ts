@@ -16,7 +16,17 @@ abstract class List<T> {
     return !this.isEmpty()
   }
 
-
+  reduce(reducer, seedValue?) {
+    if (undefined === seedValue)
+      if (this.isEmpty())
+        throw new TypeError('reduce failed because there was neither a seed value nor any items in the list')
+      else
+        return this.tail.reduce(reducer, this.head);
+    else if (this.isEmpty())
+      return seedValue;
+    else
+      return this.tail.reduce(reducer, reducer(seedValue, this.head))
+  }
   // map()
   // reduce()
 }

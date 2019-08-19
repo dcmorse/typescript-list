@@ -97,4 +97,31 @@ describe('List', () => {
       expect(list(5).isCons()).toBe(true)
     });
   });
+
+
+  describe('reduce', () => {
+    it('list(1,2).reduce(+,7) => 10', () => {
+      expect(list(1,2).reduce((a,b) => a+b, 7)).toBe(10);
+    });
+
+    it('list(1,2).reduce(-,7) => 4', () => {
+      expect(list(1,2).reduce((a,b) => a-b, 7)).toBe(4);
+    });
+
+    it('list(3,7).reduce(*) => 21', () => {
+      expect(list(3,7).reduce((a,b) => a*b)).toBe(21);
+    });
+
+    it('list(3,7,2).reduce(*) => 42', () => {
+      expect(list(3,7,2).reduce((a,b) => a*b)).toBe(42);
+    });
+
+    it('nil.reduce(fn) throws TypeError', () => {
+      expect(() => list().reduce((a,b) => a && b)).toThrow(TypeError);
+    });
+
+    it('list(7).reduce(x+10) => 7', () => {
+      expect(list(7).reduce((acc, n)=>n+10)).toBe(7);
+    });
+  });
 })

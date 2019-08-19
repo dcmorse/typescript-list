@@ -7,11 +7,16 @@ abstract class List<T> {
   toArray(): T[] {
     const a: T[] = [];
     let l: List<T>;
-    for (l = this; ! l.isEmpty(); l = l.tail)
+    for (l = this; l.isCons(); l = l.tail)
       a.push(l.head);
     return a;
   }
-  // prepend(): (<T>) => List<T>;
+
+  isCons(): boolean {
+    return !this.isEmpty()
+  }
+
+
   // map()
   // reduce()
 }

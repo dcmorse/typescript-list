@@ -1,4 +1,4 @@
-import { list } from './list';
+import { list, Cons } from './list';
 
 describe('List', () => {
   describe('constructor and toArray()', () => {
@@ -79,5 +79,22 @@ describe('List', () => {
     it("length 0", () => {
       expect(list().length()).toEqual(0);
     });
-  })
+  });
+
+  it('new Cons', () => {
+    const ll = new Cons(667, list())
+    expect(ll.length()).toBe(1);
+    expect(ll.head).toBe(667);
+    expect(ll.tail.isEmpty()).toBe(true);
+  });
+
+  describe('isCons', () => {
+    it('on empty list', () => {
+      expect(list().isCons()).toBe(false)
+    });
+
+    it('on cons', () => {
+      expect(list(5).isCons()).toBe(true)
+    });
+  });
 })

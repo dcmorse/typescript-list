@@ -1,21 +1,32 @@
 abstract class List<T> {
   head: T;
   tail: List<T>;
+  abstract isEmpty(): boolean;
   abstract length(): number;
-  abstract toArray(): T[];
+
+  toArray(): T[] {
+    const a: T[] = [];
+    let l: List<T>;
+    for (l = this; ! l.isEmpty(); l = l.tail)
+      a.push(l.head);
+    return a;
+  }
   // prepend(): (<T>) => List<T>;
   // map()
   // reduce()
 }
 
 function list<T>(...args): List<T> {
-  let ll: List<T> = nil;
+  let ll: List<T> = new Nil<T>();
   for (let i = args.length-1; i >= 0; i--)
     ll = new Cons(args[i], ll);
   return ll;
 }
 
 export { list };
+
+
+////////////////////////////////////////////////////////////////
 
 export class Cons<T> extends List<T> {
   head: T;
@@ -27,23 +38,27 @@ export class Cons<T> extends List<T> {
     this.tail = tail;
   };
 
+  isEmpty() {
+    return false;
+  }
+
   length() {
     return 1 + this.tail.length()
   };
-
-  toArray(): T[] {
-    const a: T[] = [];
-    let l: List<T>;
-    for (l = this; l != nil; l = l.tail)
-      a.push(l.head);
-    return a;
-  }
 }
+
+////////////////////////////////////////////////////////////////
+
 
 class Nil<T> extends List<T> {
   toString() {
     return 'nil';
   }
+
+  isEmpty() {
+    return true;
+  }
+
   length() {
     return 0;
   }
@@ -53,9 +68,5 @@ class Nil<T> extends List<T> {
   get tail(): never {
     throw new RangeError('Attempt to take the tail of an empty list.');
   }
-  toArray(): [] {
-    return [];
-  }
 }
 
-export const nil = new Nil()

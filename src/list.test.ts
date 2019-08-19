@@ -1,4 +1,4 @@
-import { list, nil } from './list';
+import { list } from './list';
 
 describe('List', () => {
   describe('constructor and toArray()', () => {
@@ -17,17 +17,21 @@ describe('List', () => {
     });
   });
 
-  describe('nil is at the end of constructor return values', () => {
-    test('list() returns nil', () => {
-      expect(list()).toBe(nil);
+  describe('isEmpty and tail', () => {
+    test('list() ends in an empty list', () => {
+      expect(list().isEmpty()).toBe(true);
     });
 
-    test('list(5).tail returns nil', () => {
-      expect(list(5).tail).toBe(nil);
+    test('list(5) ends in an empty list', () => {
+      expect(list(5).isEmpty()).toBe(false);
+      expect(list(5).tail.isEmpty()).toBe(true);
     });
 
-    test('list(5, 6, 7).tail.tail.tail returns nil', () => {
-      expect(list(5, 6, 7).tail.tail.tail).toBe(nil);
+    test('list(5, 6, 7) ends in an empty list', () => {
+      expect(list(5, 6, 7).isEmpty()).toBe(false);
+      expect(list(5, 6, 7).tail.isEmpty()).toBe(false);
+      expect(list(5, 6, 7).tail.tail.isEmpty()).toBe(false);
+      expect(list(5, 6, 7).tail.tail.tail.isEmpty()).toBe(true);
     });
   });
 
@@ -52,28 +56,28 @@ describe('List', () => {
     })
 
     it('nil explodes', () => {
-      expect(() => nil.head).toThrow(RangeError)
+      expect(() => list().head).toThrow(RangeError)
     });
   });
 
   describe('tail', () => {
     it('Cons works', () => {
       let cons = list('apple');
-      expect(cons.tail).toEqual(nil);
+      expect(cons.tail.isEmpty()).toEqual(true);
     })
 
-    it('nil explodes', () => {
-      expect(() => nil.tail).toThrow(RangeError)
+    it('on empty list explodes', () => {
+      expect(() => list().tail).toThrow(RangeError)
     });
   });
 
-  describe('nil', () => {
+  describe('empty list', () => {
     it("prints as 'nil'", () => {
-      expect(nil.toString()).toEqual('nil');
+      expect(list().toString()).toEqual('nil');
     });
 
     it("length 0", () => {
-      expect(nil.length()).toEqual(0);
+      expect(list().length()).toEqual(0);
     });
   })
 })

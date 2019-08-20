@@ -132,8 +132,25 @@ describe('List', () => {
     });
 
     it('list(5).map(+2) => list(7)', () => {
-      const nil: List<number> = list();
       expect(list(5).map(x=>x+2)).toEqual(list(7));
     });
   });
-})
+
+  describe('filter', () => {
+    it('nil.filter(whatever) => nil', () => {
+      const nil = list();
+      expect(nil.filter(x=>true)).toEqual(nil);
+    });
+
+    it('works', () => {
+      const ll = list('lobster', 'dog', 'ape', 'mackerel');
+      expect(ll.filter(s => 4 > s.length)).toEqual(list('dog', 'ape'));
+    });
+  });
+
+  describe('reverse', () => {
+    it('works', () => {
+      expect(list(1,2,3,4).reverse()).toEqual(list(4,3,2,1));
+    });
+  });
+});

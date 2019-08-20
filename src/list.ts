@@ -36,7 +36,13 @@ abstract class List<T> {
 
   }
 
-  // filter()
+  filter(fn): List<T> {
+    return this.reduce((tail, elt) => fn(elt) ? new Cons(elt, tail) : tail, new Nil()).reverse();
+  }
+
+  reverse() {
+    return this.reduce((tail, elt) => new Cons(elt, tail), new Nil());
+  }
 }
 
 export { List }; // for type signatures
@@ -94,4 +100,3 @@ class Nil<T> extends List<T> {
     throw new RangeError('Attempt to take the tail of an empty list.');
   }
 }
-

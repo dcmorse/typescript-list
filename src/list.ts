@@ -36,13 +36,11 @@ abstract class List<T> {
 
   }
 
-  filter(fn): List<T> {
-    return this.reduce((tail, elt) => fn(elt) ? new Cons(elt, tail) : tail, new Nil()).reverse();
-  }
+  abstract filter(fn): List<T>;
 
   reverse() {
     return this.reduce((tail, elt) => new Cons(elt, tail), new Nil());
-  }
+  };
 }
 
 export { List }; // for type signatures
@@ -76,6 +74,11 @@ export class Cons<T> extends List<T> {
   length() {
     return 1 + this.tail.length()
   };
+
+  filter(fn) {
+    let rest = this.tail.filter(fn);
+    return fn(this.head) ? new Cons(this.head, rest) : rest;
+  };
 }
 
 ////////////////////////////////////////////////////////////////
@@ -93,10 +96,16 @@ class Nil<T> extends List<T> {
   length() {
     return 0;
   }
+
   get head(): never {
     throw new RangeError('Attempt to take the head of an empty list.')
   }
+
   get tail(): never {
     throw new RangeError('Attempt to take the tail of an empty list.');
   }
+
+  filter(fn) {
+    return new Nil<T>(); // making new insteas of using 'this' because of a superstitious fear of memory fragmentation.
+  };
 }

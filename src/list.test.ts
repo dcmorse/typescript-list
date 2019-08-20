@@ -1,4 +1,4 @@
-import { list, Cons } from './list';
+import { list, List, Cons } from './list';
 
 describe('List', () => {
   describe('constructor and toArray()', () => {
@@ -122,6 +122,18 @@ describe('List', () => {
 
     it('list(7).reduce(x+10) => 7', () => {
       expect(list(7).reduce((acc, n)=>n+10)).toBe(7);
+    });
+  });
+
+  describe('map', () => {
+    it('nil.map(whatever) => nil', () => {
+      const nil: List<number> = list();
+      expect(nil.map(x=>x).isEmpty()).toBe(true);
+    });
+
+    it('list(5).map(+2) => list(7)', () => {
+      const nil: List<number> = list();
+      expect(list(5).map(x=>x+2)).toEqual(list(7));
     });
   });
 })

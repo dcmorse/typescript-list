@@ -25,9 +25,21 @@ abstract class List<T> {
     else
       return this.tail.reduce(reducer, this.head);
   }
-  // map()
-  // reduce()
+
+  map(fn) {
+    return this.reduce((tail, elt) => new Cons(fn(elt), tail), new Nil())
+    // alternative, recursive implementation:
+    // if (this.isEmpty())
+    //   return new Nil();
+    // else
+    //   return new Cons(fn(this.head), this.tail.map(fn));
+
+  }
+
+  // filter()
 }
+
+export { List }; // for type signatures
 
 function list<T>(...args): List<T> {
   let ll: List<T> = new Nil<T>();

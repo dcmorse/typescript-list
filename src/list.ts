@@ -1,23 +1,23 @@
 abstract class List<T> {
   head: T;
   tail: List<T>;
-  abstract isEmpty(): boolean;
+  abstract isEmpty: boolean; // see also: isCons
   abstract length(): number;
 
   toArray(): T[] {
     const a: T[] = [];
     let l: List<T>;
-    for (l = this; l.isCons(); l = l.tail)
+    for (l = this; l.isCons; l = l.tail)
       a.push(l.head);
     return a;
   }
 
-  isCons(): boolean {
-    return !this.isEmpty()
+  get isCons(): boolean {
+    return ! this.isEmpty
   }
 
   reduce(reducer, seedValue?) {
-    const empty = this.isEmpty();
+    const empty = this.isEmpty;
     if (seedValue !== undefined)
       return empty ? seedValue : this.tail.reduce(reducer, reducer(seedValue, this.head))
     else if (empty)
@@ -29,7 +29,7 @@ abstract class List<T> {
   map(fn) {
     return this.reduce((tail, elt) => new Cons(fn(elt), tail), new Nil())
     // alternative, recursive implementation:
-    // if (this.isEmpty())
+    // if (this.isEmpty)
     //   return new Nil();
     // else
     //   return new Cons(fn(this.head), this.tail.map(fn));
@@ -67,7 +67,7 @@ export class Cons<T> extends List<T> {
     this.tail = tail;
   };
 
-  isEmpty() {
+  get isEmpty() {
     return false;
   }
 
@@ -89,7 +89,7 @@ class Nil<T> extends List<T> {
     return 'nil';
   }
 
-  isEmpty() {
+  get isEmpty() {
     return true;
   }
 

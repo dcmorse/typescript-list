@@ -123,6 +123,10 @@ describe('List', () => {
     it('list(7).reduce(x+10) => 7', () => {
       expect(list(7).reduce((acc, n)=>n+10)).toBe(7);
     });
+
+    it('list(1,2,3,4,5).reduce(x+10) => 7', () => {
+      expect(list(1,2,3,4,5).reduce((acc, n) => n==1 ? 'r' : acc+'ing', 'scuba')).toBe('ringinginging');
+    });
   });
 
   describe('map', () => {
@@ -131,8 +135,8 @@ describe('List', () => {
       expect(nil.map(x=>x).isEmpty).toBe(true);
     });
 
-    it('list(5).map(+2) => list(7)', () => {
-      expect(list(5).map(x=>x+2)).toEqual(list(7));
+    it('list(1,2,3).map(+2) => list(3,4,5)', () => {
+      expect(list(1,2,3).map(x=>x+2)).toEqual(list(3,4,5));
     });
   });
 

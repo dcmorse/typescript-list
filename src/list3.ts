@@ -1,9 +1,12 @@
 
 
-interface List<T> {
+export interface List<T> {
   isEmpty: boolean;
   head: T;
   tail: List<T>;
+
+  map(fn: Function): List<any>;
+  filter(fn: (T)=>boolean): List<T>;
 }
 
 
@@ -19,6 +22,17 @@ class Cell<T> implements List<T> {
   get isEmpty() {
     return false;
   }
+
+  map(fn: Function) {
+    return new Cell(fn(this.head), this.tail.map(fn));
+  }
+
+  filter(fn) {
+    if (fn(this.head))
+      return new Cell(this.head, this.tail.filter(fn));
+    else
+      return this.tail.filter(fn);
+  }
 }
 
 class Nil<T> implements List<T> {
@@ -32,6 +46,14 @@ class Nil<T> implements List<T> {
 
   get tail(): never {
     throw new RangeError('Attempt to take the tail of an empty list.')
+  }
+
+  map(fn: Function) {
+    return this;
+  }
+
+  filter(fn) {
+    return this;
   }
 }
 

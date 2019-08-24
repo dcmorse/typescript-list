@@ -32,7 +32,7 @@ describe('map', () => {
   })
 
   it('list("apples", "bananas").map((s)=>s.length) returns list(6,7)', ()=> {
-    expect(list("apples", "bananas").map((s)=>s.length)).toEqual(list(6,7));
+    expect(list<string>("apples", "bananas").map(s=>s.length)).toEqual(list(6,7));
   })
 })
 

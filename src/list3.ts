@@ -5,7 +5,8 @@ export interface List<T> {
   head: T;
   tail: List<T>;
 
-  map(fn: Function): List<any>;
+  map<U>(fn: (t: T) => U): List<U>;
+  // map(fn: Function): List<any>;
   filter(fn: (T)=>boolean): List<T>;
 }
 

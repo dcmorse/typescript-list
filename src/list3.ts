@@ -1,17 +1,4 @@
-
-
-export interface List<T> {
-  isEmpty: boolean;
-  head: T;
-  tail: List<T>;
-
-  map<U>(fn: (t: T) => U): List<U>;
-  // map(fn: Function): List<any>;
-  filter(fn: (T)=>boolean): List<T>;
-}
-
-
-class Cell<T> implements List<T> {
+class Cell<T> {
   head: T;
   tail: Cell<T>;
 
@@ -20,50 +7,64 @@ class Cell<T> implements List<T> {
     this.tail = tail;
   }
 
-  get isEmpty() {
-    return false;
-  }
+  // map(fn: Function) {
+  //   return new Cell(fn(this.head), this.tail.map(fn));
+  // }
 
-  map(fn: Function) {
-    return new Cell(fn(this.head), this.tail.map(fn));
-  }
-
-  filter(fn) {
-    if (fn(this.head))
-      return new Cell(this.head, this.tail.filter(fn));
-    else
-      return this.tail.filter(fn);
-  }
+  // filter(fn) {
+  //   if (fn(this.head))
+  //     return new Cell(this.head, this.tail.filter(fn));
+  //   else
+  //     return this.tail.filter(fn);
+  // }
 }
 
-class Nil<T> implements List<T> {
-  get isEmpty() {
-    return true;
-  }
-
-  get head(): never {
-    throw new RangeError('Attempt to take the head of an empty list.')
-  }
-
-  get tail(): never {
-    throw new RangeError('Attempt to take the tail of an empty list.')
-  }
-
-  map(fn: Function) {
-    return this;
-  }
-
-  filter(fn) {
-    return this;
-  }
-}
-
-export const nil = Object.freeze(new Nil());
-
-export function list<T>(...args): List<T> {
-  let l = nil as List<T>;
+export function list<T>(...args): Cell<T> {
+  let l = null as Cell<T>;
   for (let i = args.length-1; i >= 0; i--)
     l = new Cell(args[i], l);
   return l;
 }
 
+export function map(fn, list) {
+  if (list)
+    return new Cell(fn(list.head), map(fn, list.tail));
+  else
+    return null;
+}
+
+export function filter(fn, list) {
+  if (list === null)
+    return null;
+  else if (fn(list.head))
+    return new Cell(list.head, filter(fn, list.tail));
+  else
+    return filter(fn, list.tail);
+}
+
+//  map<U>(fn: (t: T) => U): List<U>;
+
+// reduce(fn, list, seed) => fn-result
+function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed: U);
+// U is same type as T
+function reduce<T>(fn: (acc: T, T) => T, list: Cell<T>);
+
+function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed?: U) {
+  if (typeof seed === "undefined") {
+    if (list)
+      return reduce(fn, list.tail, list.head as unknown as U);
+    else
+      throw new Error("can't reduce without something in the list")
+  } else {
+    if (list)
+      return reduce(fn, list.tail, fn(seed, list.head))
+    else
+      return seed;
+  }
+}
+
+export { reduce };
+
+export function length<T>(list: Cell<T>): Number {
+  return reduce((x,_)=>x+1, list, 0);
+}

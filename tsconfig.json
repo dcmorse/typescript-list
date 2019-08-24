@@ -6,6 +6,6 @@
     "paths": {
       "@App/*": ["src/*"]
     },
-    "lib": ["es6"]
+    "lib": ["es6", "dom"]
   }
 }

@@ -1,4 +1,4 @@
-import { list, map, filter, reduce, length } from './list3';
+import { list, map, filter, reduce, length } from './list';
 
 it('list() returns null', () => {
   expect(list()).toBe(null);

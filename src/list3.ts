@@ -6,17 +6,6 @@ class Cell<T> {
     this.head = head;
     this.tail = tail;
   }
-
-  // map(fn: Function) {
-  //   return new Cell(fn(this.head), this.tail.map(fn));
-  // }
-
-  // filter(fn) {
-  //   if (fn(this.head))
-  //     return new Cell(this.head, this.tail.filter(fn));
-  //   else
-  //     return this.tail.filter(fn);
-  // }
 }
 
 export function list<T>(...args): Cell<T> {
@@ -45,11 +34,11 @@ export function filter(fn, list) {
 //  map<U>(fn: (t: T) => U): List<U>;
 
 // reduce(fn, list, seed) => fn-result
-function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed: U);
+export function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed: U);
 // U is same type as T
-function reduce<T>(fn: (acc: T, T) => T, list: Cell<T>);
+export function reduce<T>(fn: (acc: T, T) => T, list: Cell<T>);
 
-function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed?: U) {
+export function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed?: U) {
   if (typeof seed === "undefined") {
     if (list)
       return reduce(fn, list.tail, list.head as unknown as U);
@@ -62,8 +51,6 @@ function reduce<T,U>(fn: (acc: U, T) => U, list: Cell<T>, seed?: U) {
       return seed;
   }
 }
-
-export { reduce };
 
 export function length<T>(list: Cell<T>): Number {
   return reduce((x,_)=>x+1, list, 0);
